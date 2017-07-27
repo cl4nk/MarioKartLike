@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class UsableItem : Item {
+namespace Items.UsableItem
+{
+    public class UsableItem : Item {
 
-    [SerializeField] protected float boost;
+        [SerializeField] protected float boost;
 
-    public virtual void use () {
+        public virtual void use () {
 	
-	}
+        }
+    }
 }

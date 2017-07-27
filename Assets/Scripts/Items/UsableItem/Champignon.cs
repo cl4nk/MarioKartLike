@@ -1,27 +1,30 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Managers;
+using UnityEngine;
 
-public class Champignon : UsableItem {
+namespace Items.UsableItem
+{
+    public class Champignon : UsableItem {
 
-    private CarUserControl controller;
+        private CarUserControl controller;
 
-    public override void SetOwner(GameObject newOwner)
-    {
-        owner = newOwner;
+        public override void SetOwner(GameObject newOwner)
+        {
+            owner = newOwner;
 
-        if (owner.tag == "Player")
-            controller = owner.GetComponent<CarUserControl>();
-    }
+            if (owner.tag == "Player")
+                controller = owner.GetComponent<CarUserControl>();
+        }
 
-    public override void use()
-    {
-        controller.Boost = boost;
-        AudioManager.Instance.PlayTurbo(owner.GetComponents<AudioSource>()[1]);
-        Destroy(gameObject, duration);
-    }
+        public override void use()
+        {
+            controller.Boost = boost;
+            AudioManager.Instance.PlayTurbo(owner.GetComponents<AudioSource>()[1]);
+            Destroy(gameObject, duration);
+        }
 
-    public void OnDestroy()
-    {
-        controller.Boost = 0f;
+        public void OnDestroy()
+        {
+            controller.Boost = 0f;
+        }
     }
 }

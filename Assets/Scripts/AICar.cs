@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Managers;
 
 public class AICar : MonoBehaviour
 {

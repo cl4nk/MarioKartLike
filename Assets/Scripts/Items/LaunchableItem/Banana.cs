@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Banana : LaunchableItem {
+namespace Items.LaunchableItem
+{
+    public class Banana : LaunchableItem {
 
-    GameObject target;
-    public GameObject Target { set { target = value; } }
+        GameObject target;
+        public GameObject Target { set { target = value; } }
 
-    [SerializeField] float rotateSpeed;
+        [SerializeField] float rotateSpeed;
 
 
-    void FixedUpdate ()
-    {
-        FixedUpdateLaunchable();
-    }
+        void FixedUpdate ()
+        {
+            FixedUpdateLaunchable();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (isLaunch)
+        // Update is called once per frame
+        void Update()
+        {
+            /*if (isLaunch)
         {
             RaycastHit groundHit;
 
@@ -34,38 +35,39 @@ public class Banana : LaunchableItem {
             }
         }*/
 
-        if (target)
-            target.transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
-    }
-
-    public override void LaunchForward()
-    {
-        if (owner)
-        {
-            transform.position = owner.gameObject.transform.position - new Vector3(0, -1f, launchDistance);
-            transform.localEulerAngles = new Vector3(0, 0, 45f);
+            if (target)
+                target.transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
         }
 
-        isLaunch = true;
-    }
+        public override void LaunchForward()
+        {
+            if (owner)
+            {
+                transform.position = owner.gameObject.transform.position - new Vector3(0, -1f, launchDistance);
+                transform.localEulerAngles = new Vector3(0, 0, 45f);
+            }
 
-    void OnTriggerEnter(Collider coll)
-    {
-        CarCollCtl = coll.gameObject.GetComponent<CarCollisionController>();
-        if (!CarCollCtl)
-            return;
-        CarCollCtl.HitItem();
-        target = coll.gameObject.transform.root.gameObject;
-        Hide("Capsule");
-        Destroy(gameObject, duration);
-    }
+            isLaunch = true;
+        }
 
-    void OnDestroy()
-    {
-        if (CarCollCtl)
-            CarCollCtl.EnableCar(true);
+        void OnTriggerEnter(Collider coll)
+        {
+            CarCollCtl = coll.gameObject.GetComponent<CarCollisionController>();
+            if (!CarCollCtl)
+                return;
+            CarCollCtl.HitItem();
+            target = coll.gameObject.transform.root.gameObject;
+            Hide("Capsule");
+            Destroy(gameObject, duration);
+        }
 
-        if (itemMgr)
-            itemMgr.OnDefaultLaunch -= LaunchBackward;
+        void OnDestroy()
+        {
+            if (CarCollCtl)
+                CarCollCtl.EnableCar(true);
+
+            if (itemMgr)
+                itemMgr.OnDefaultLaunch -= LaunchBackward;
+        }
     }
 }

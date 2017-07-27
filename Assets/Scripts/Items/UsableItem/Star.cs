@@ -1,33 +1,36 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Managers;
+using UnityEngine;
 
-public class Star : UsableItem {
+namespace Items.UsableItem
+{
+    public class Star : UsableItem {
 
-    private CarController controller;
-    private CarCollisionController collCtl;
+        private CarController controller;
+        private CarCollisionController collCtl;
 
-    public override void SetOwner(GameObject newOwner)
-    {
-        owner = newOwner;
-
-        if (owner.tag == "Player")
+        public override void SetOwner(GameObject newOwner)
         {
-            controller = owner.GetComponent<CarController>();
-            collCtl = owner.GetComponentInChildren<CarCollisionController>();
+            owner = newOwner;
+
+            if (owner.tag == "Player")
+            {
+                controller = owner.GetComponent<CarController>();
+                collCtl = owner.GetComponentInChildren<CarCollisionController>();
+            }
         }
-    }
 
-    public override void use()
-    {
-        controller.SetTopspeed(controller.MaxSpeed * 1.5f);
-        collCtl.Invincible = true;
-        AudioManager.Instance.PlayStarEffect(owner.GetComponents<AudioSource>()[1], duration);
-        Destroy(gameObject, duration);
-    }
+        public override void use()
+        {
+            controller.SetTopspeed(controller.MaxSpeed * 1.5f);
+            collCtl.Invincible = true;
+            AudioManager.Instance.PlayStarEffect(owner.GetComponents<AudioSource>()[1], duration);
+            Destroy(gameObject, duration);
+        }
 
-    public void OnDestroy()
-    {
-        controller.UnsetTopspeed();
-        collCtl.Invincible = false;
+        public void OnDestroy()
+        {
+            controller.UnsetTopspeed();
+            collCtl.Invincible = false;
+        }
     }
 }

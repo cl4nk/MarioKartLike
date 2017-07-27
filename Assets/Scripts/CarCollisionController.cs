@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
+using Managers;
 
 public class CarCollisionController : MonoBehaviour {
 

@@ -1,95 +1,97 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class LaunchableItem : Item {
+namespace Items.LaunchableItem
+{
+    public class LaunchableItem : Item {
 
-    [SerializeField] protected float launchDistance;
-    [SerializeField] protected float dragDistance = 5f;
-    protected bool isLaunch = false;
+        [SerializeField] protected float launchDistance;
+        [SerializeField] protected float dragDistance = 5f;
+        protected bool isLaunch = false;
 
-    protected CarCollisionController CarCollCtl;
+        protected CarCollisionController CarCollCtl;
 
-    public Color particleColor;
+        public Color particleColor;
 
-    // Use this for initialization
-    void Start () {
+        // Use this for initialization
+        void Start () {
 	
-	}
-
-    // Update is called once per frame
-    public void FixedUpdateLaunchable()
-    {
-        if (!isLaunch && owner)
-        {
-            transform.position = (owner.transform.position - (owner.transform.forward * 5));
-            transform.rotation = owner.transform.rotation;
         }
-    }
 
-    public override void SetOwner(GameObject newOwner)
-    {
-        owner = newOwner;
-        itemMgr = owner.GetComponent<ItemManager>();
-        if (itemMgr)
-            AddDefaultLaunch();
-    }
+        // Update is called once per frame
+        public void FixedUpdateLaunchable()
+        {
+            if (!isLaunch && owner)
+            {
+                transform.position = (owner.transform.position - (owner.transform.forward * 5));
+                transform.rotation = owner.transform.rotation;
+            }
+        }
 
-    public virtual void LaunchForward()
-    {
-        if (owner)
-            transform.position = owner.gameObject.transform.position - new Vector3(0, -1f, launchDistance);
+        public override void SetOwner(GameObject newOwner)
+        {
+            owner = newOwner;
+            itemMgr = owner.GetComponent<ItemManager>();
+            if (itemMgr)
+                AddDefaultLaunch();
+        }
 
-        isLaunch = true;
-    }
+        public virtual void LaunchForward()
+        {
+            if (owner)
+                transform.position = owner.gameObject.transform.position - new Vector3(0, -1f, launchDistance);
 
-    public virtual void LaunchBackward()
-    {
-        isLaunch = true;
-    }
+            isLaunch = true;
+        }
 
-    public virtual void AddDefaultLaunch()
-    {
-        itemMgr.OnDefaultLaunch += LaunchBackward;
-    }
+        public virtual void LaunchBackward()
+        {
+            isLaunch = true;
+        }
 
-    public void ShowParticles ()
-    {
-        GameObject particles = Resources.Load<GameObject>("Prefabs/ExplosionParticles");
-        particles = Instantiate(particles, transform.position, transform.rotation) as GameObject;
-        particles.GetComponent<ParticleSystemRenderer>().material.color = particleColor;
-    }
-    public void Hide(string ColliderType)
-    {
+        public virtual void AddDefaultLaunch()
+        {
+            itemMgr.OnDefaultLaunch += LaunchBackward;
+        }
+
+        public void ShowParticles ()
+        {
+            GameObject particles = Resources.Load<GameObject>("Prefabs/ExplosionParticles");
+            particles = Instantiate(particles, transform.position, transform.rotation) as GameObject;
+            particles.GetComponent<ParticleSystemRenderer>().material.color = particleColor;
+        }
+        public void Hide(string ColliderType)
+        {
         
 
-        gameObject.GetComponent<Renderer>().enabled = false;
+            gameObject.GetComponent<Renderer>().enabled = false;
 
-        switch (ColliderType)
-        {
-            case "Capsule":
+            switch (ColliderType)
+            {
+                case "Capsule":
                 {   gameObject.GetComponent<CapsuleCollider>().enabled = false;     break;  }
-            case "Box":
+                case "Box":
                 {   gameObject.GetComponent<BoxCollider>().enabled = false;         break; }
-            case "Sphere":
+                case "Sphere":
                 {   gameObject.GetComponent<SphereCollider>().enabled = false;      break; }
-            default:
+                default:
                 { break; }
+            }
         }
-    }
 
-    public void Show(string ColliderType)
-    {
-        gameObject.GetComponent<Renderer>().enabled = true;
-        switch (ColliderType)
+        public void Show(string ColliderType)
         {
-            case "Capsule":
+            gameObject.GetComponent<Renderer>().enabled = true;
+            switch (ColliderType)
+            {
+                case "Capsule":
                 { gameObject.GetComponent<CapsuleCollider>().enabled = true;    break; }
-            case "Box":
+                case "Box":
                 { gameObject.GetComponent<BoxCollider>().enabled = true;        break; }
-            case "Sphere":
+                case "Sphere":
                 { gameObject.GetComponent<SphereCollider>().enabled = true;     break; }
-            default:
+                default:
                 { break; }
+            }
         }
     }
 }

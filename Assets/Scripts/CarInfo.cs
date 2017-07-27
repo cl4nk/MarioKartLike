@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 
 public class CarInfo : MonoBehaviour, System.IComparable<CarInfo>
 {

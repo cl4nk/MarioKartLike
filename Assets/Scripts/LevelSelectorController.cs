@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine.EventSystems;
 
 public class LevelSelectorController : MonoBehaviour
